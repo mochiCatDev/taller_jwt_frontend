@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from "react";
 
 const AuthContext = createContext();
 
-export function AuthProvaider(props) {
+export function AuthProvider(props) {
     const { children } = props;
     const [token, setToken] = useState(localStorage.getItem('token') || null);
 

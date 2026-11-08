@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import { useAuth } from '../config/AuthContext';
-import { navigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../config/apiConfig';
 
 function Perfil() {
 	const [datosPerfil, setDatosPerfil] = useState(null);
@@ -11,8 +12,8 @@ function Perfil() {
 
 	useEffect(() => {
 		const cargarPerfil = async () => {
-			try{
-				const response = await fetch(`${API_BASE_URL}/auth/perfil`, {
+			try {
+				const response = await fetch(`${API_BASE_URL}auth/perfil`, {
 					headers: {
 						'Authorization': `Bearer ${token}`
 					}
@@ -33,25 +34,26 @@ function Perfil() {
 	}, [token]);
 
 	const manejarLogout = async () => {
-		try{
-			await fetch(`${API_BASE_URL}/auth/logout`, {
+		try {
+			await fetch(`${API_BASE_URL}auth/logout`, {
 				method: 'POST',
 				headers: {
 					'Authorization': `Bearer ${token}`
 				}
 			});
 		} catch (err) {
-			console.log('Error al intentar revocar el token. ' + err)
+			console.log('Error al intentar revocar el token. ' + err);
 		}
 
 		logout();
-		navigate('/login')
-	}
-	return(
+		navigate('/login');
+	};
+
+	return (
 		<div>
 			<div>
 				<h2>Perfil Usuario</h2>
-				<button onChange={manejarLogout}>Cerrar Sesión</button>
+				<button onClick={manejarLogout}>Cerrar Sesión</button> {/* Cambiado onChange por onClick */}
 			</div>
 
 			{error && <p>{error}</p>}
@@ -65,7 +67,7 @@ function Perfil() {
 				</div>
 			)}
 		</div>
-	)
+	);
 }
 
-export default Perfil
+export default Perfil;

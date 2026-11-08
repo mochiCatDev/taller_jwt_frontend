@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { API_BASE_URL } from '../config/apiConfig'
+import { API_BASE_URL } from '../config/apiConfig';
 
 function Login() {
-	const [username, SetUsername] = useState('');
-	const [password , SetPassword] = useState('');
+	const [username, setUsername] = useState('');
+	const [password, setPassword] = useState('');
 	const [error, setError] = useState('');
 
 	const navigate = useNavigate();
@@ -13,13 +13,13 @@ function Login() {
 
 	const manejarSubmit = async e => {
 		e.preventDefault();
-		setErr('');
+		setError('');
 
 		try {
-			const response = await fetch(`${API_BASE_URL}/auth/login`, {
-				method: 'POST,
+			const response = await fetch(`${API_BASE_URL}auth/login`, {
+				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({username, password})
+				body: JSON.stringify({ username, password })
 			});
 
 			if (!response.ok) {
@@ -29,11 +29,12 @@ function Login() {
 			const datos = await response.json();
 			login(datos.token);
 			navigate('/perfil');
-		} catch (error) {
-			setErr(error.message);
+		} catch (err) {
+			setError(err.message);
 		}
-	}
-	return(
+	};
+
+	return (
 		<div>
 			<h1>Iniciar Sesión</h1>
 			<form onSubmit={manejarSubmit}>
@@ -49,17 +50,17 @@ function Login() {
 				<div>
 					<label>Contraseña</label>
 					<input
-						type="text"
+						type="password"
 						value={password}
 						onChange={e => setPassword(e.target.value)}
 						required
 					/>
 				</div>
-				{err && <p>{err}</p>}
+				{error && <p>{error}</p>}
 				<button type="submit">Ingresar</button>
 			</form>
 		</div>
-	)
+	);
 }
 
-export default Login
+export default Login;
