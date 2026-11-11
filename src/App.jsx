@@ -3,24 +3,28 @@ import { AuthProvider } from './context/AuthContext';
 import Login from './pages/Login';
 import Perfil from './pages/Perfil';
 import Registrar from './pages/Registrar';
+import GestionItems from './pages/GestionItems';
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 
 function App() {
-  return (
-    <AuthProvider>
-        <BrowserRouter>
-            <Routes>
-                <Route path='/login' element={ <Login /> } />
-                <Route path='/registrar' element={ <Registrar /> } />
-                <Route element={<ProtectedRoute />}>
-                    <Route path='/perfil' element={<Perfil />} />
-                </Route>
-                <Route path='*' element={<Navigate to='/login' replace />} />
-            </Routes>
-        </BrowserRouter>
-    </AuthProvider>
-  );
+    return (
+        <AuthProvider>
+            <BrowserRouter>
+                <Routes>
+                    <Route path='/login' element={<Login />} />
+                    <Route path='/registrar' element={<Registrar />} />
+
+                    <Route element={<ProtectedRoute />}>
+                        <Route path='/perfil' element={<Perfil />} />
+                        <Route path='/gestion' element={<GestionItems />} />
+                    </Route>
+
+                    <Route path='*' element={<Navigate to='/login' replace />} />
+                </Routes>
+            </BrowserRouter>
+        </AuthProvider>
+    );
 }
 
 export default App;
